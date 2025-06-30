@@ -2,6 +2,7 @@ import { Router } from "@vaadin/router";
 import { LitElement, html, css } from "lit";
 import { customElement } from "lit/decorators.js";
 
+
 @customElement("login-view")
 export class LoginView extends LitElement {
 
@@ -9,43 +10,47 @@ export class LoginView extends LitElement {
     return this;
   }
 
-  private async _onSubmit(e: Event) {
-    e.preventDefault();
-    const submitButton = document.getElementById('submit-button') as HTMLButtonElement;
-    submitButton.disabled = true;
-
-    const email = (document.querySelector('#email') as HTMLInputElement).value;
-    const password = (document.querySelector('#password') as HTMLInputElement).value;
-
-    if (!(email && password)) {
-      alert('Fill in the form');
-      submitButton.disabled = false;
-      return;
-    }
-
-    try {
-      const response = await fetch("http://localhost:3000/api/v1/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const jsResponse = await response.json();
-
-      if (!jsResponse.token) {
-        alert('Failed to log in');
-        submitButton.disabled = false;
-      } else {
-
-        localStorage.setItem('token', jsResponse.token);
-        Router.go('/dashboard')
-      }
-
-    } catch (err) {
-      console.error('Erreur lors de la requête:', err);
-      submitButton.disabled = false;
+connectedCallback() {
+    super.connectedCallback();
+    const token = localStorage.getItem("token");
+    if (token) {
+      Router.go("/dashboard");
     }
   }
+
+  private async _onSubmit(e: Event) {
+  e.preventDefault();
+  const emailInput = document.getElementById("email") as HTMLInputElement;
+  const passwordInput = document.getElementById("password") as HTMLInputElement;
+  const email = emailInput?.value ?? "";
+  const password = passwordInput?.value ?? "";
+
+  const formData = new URLSearchParams();
+  formData.append("username", email);      // PAS "email"
+  formData.append("password", password);
+
+  try {
+    const response = await fetch("http://localhost:8100/api/v1/auth/login", {
+      method: "POST",
+      body: formData,
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    });
+    const data = await response.json();
+    if (response.ok) {
+   // Stocke le token
+   localStorage.setItem("token", data.access_token);
+   // Afficher un message
+   alert("Connexion réussie !");
+   window.location.href = "/dashboard";
+   // Rediriger vers dashboard
+  } else {
+  alert("Échec de la connexion : " + (jsResponse.detail || JSON.stringify(jsResponse)));
+  }
+  } catch (err) {
+    alert("Erreur réseau !");
+  }
+}
+
 
   render() {
     return html`

@@ -5,11 +5,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from .database import create_db_and_tables, SessionDep
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+import datetime
 import bcrypt
 import jwt
 import os
 from dotenv import load_dotenv
 from fastapi import Request, Response
+from fastapi import Form
+from app.database import get_session
+
+
 
 # Charger les variables d'environnement (.env)
 load_dotenv()
@@ -29,8 +34,10 @@ async def security_headers_middleware(request: Request, call_next):
 
 # CORS pour permettre au front de communiquer
 origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
     "http://localhost",
-    "http://localhost:8080",
+    "http://127.0.0.1"
 ]
 app.add_middleware(
     CORSMiddleware,
@@ -55,15 +62,26 @@ async def root():
 
 # ROUTE INSCRIPTION (POST) – Hachage du mot de passe
 @app.post("/api/v1/users/create")
-async def create_user(user: User, session: SessionDep):
-    user_dict = user.dict()
-    # Hachage du mot de passe (bcrypt)
-    if not user_dict.get("password"):
-        raise HTTPException(status_code=400, detail="Password required")
-    hashed_pw = bcrypt.hashpw(user_dict["password"].encode("utf-8"), bcrypt.gensalt())
-    user_dict["password"] = hashed_pw.decode("utf-8")
-    # On crée un nouvel utilisateur
-    db_user = User(**user_dict)
+async def create_user(
+    firstname: str = Form(...),
+    lastname: str = Form(...),
+    email: str = Form(...),
+    password: str = Form(...),
+    session = Depends(get_session),
+):
+    # Vérifier si l'utilisateur existe déjà
+    existing_user = session.exec(select(User).where(User.email == email)).first()
+    if existing_user:
+        raise HTTPException(status_code=409, detail="Cet email est déjà utilisé.")
+    # (le reste ne change pas)
+    hashed_pw = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+    db_user = User(
+        firstname=firstname,
+        lastname=lastname,
+        email=email,
+        password=hashed_pw.decode("utf-8"),
+        role="user"
+    )
     session.add(db_user)
     session.commit()
     session.refresh(db_user)
@@ -72,15 +90,23 @@ async def create_user(user: User, session: SessionDep):
 # ROUTE LOGIN – Génération du token JWT
 @app.post("/api/v1/auth/login")
 async def auth_login(session: SessionDep, form_data: OAuth2PasswordRequestForm = Depends()):
+    print(f"==> Tentative de login pour {form_data.username}")
     # Recherche l'utilisateur dans la base
     user = session.exec(select(User).where(User.email == form_data.username)).first()
     if not user:
+        print("Utilisateur non trouvé !")
         raise HTTPException(status_code=400, detail="Incorrect email or password")
+    print(f"User trouvé : {user.email}, hash en base: {user.password}")
     # Vérification du mot de passe (haché)
     if not bcrypt.checkpw(form_data.password.encode("utf-8"), user.password.encode("utf-8")):
+        print("Mot de passe incorrect !")
         raise HTTPException(status_code=400, detail="Incorrect email or password")
-    # Génération du JWT (exp: 1h)
-    payload = {"sub": user.email}
+    # Génération du JWT avec expiration (exp: 1h)
+    expire = datetime.datetime.utcnow() + datetime.timedelta(minutes=60)
+    payload = {
+    "sub": user.email,
+    "exp": expire
+    }
     secret_key = os.getenv("SECRET_KEY", "changeme!")
     token = jwt.encode(payload, secret_key, algorithm="HS256")
     return {"access_token": token, "token_type": "bearer"}
@@ -95,7 +121,14 @@ async def read_user_me(token: Annotated[str, Depends(oauth2_scheme)], session: S
         user = session.exec(select(User).where(User.email == email)).first()
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
-        return {"email": user.email, "firstname": user.firstname}
+        # Retourne toutes les infos utiles du user
+        return {
+            "email": user.email,
+            "firstname": user.firstname,
+            "lastname": user.lastname,
+            "role": user.role,
+            # Ajoute d'autres champs si tu veux (ex: photo_name)
+        }
     except Exception:
         raise HTTPException(status_code=401, detail="Invalid token")
 
@@ -117,11 +150,32 @@ async def delete_user(token: Annotated[str, Depends(oauth2_scheme)], session: Se
 
 # ITEMS CRUD (existant, inchangé)
 @app.post("/api/v1/items/create")
-async def create_item(item: Item, session: SessionDep, token: Annotated[str, Depends(oauth2_scheme)]):
-    session.add(item)
+async def create_user(
+    firstname: str = Form(...),
+    lastname: str = Form(...),
+    email: str = Form(...),
+    password: str = Form(...),
+    session = Depends(get_session),
+):
+    # Vérifier si l'email existe déjà
+    existing_user = session.exec(select(User).where(User.email == email)).first()
+    if existing_user:
+        raise HTTPException(status_code=409, detail="Cet email est déjà utilisé.")
+    
+    if not password:
+        raise HTTPException(status_code=400, detail="Password required")
+    hashed_pw = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+    db_user = User(
+        firstname=firstname,
+        lastname=lastname,
+        email=email,
+        password=hashed_pw.decode("utf-8"),
+        role="user"
+    )
+    session.add(db_user)
     session.commit()
-    session.refresh(item)
-    return item
+    session.refresh(db_user)
+    return {"email": db_user.email, "id": db_user.id}
 
 @app.put("/api/v1/items/{item_id}")
 async def update_item(item_id: int, item: Item, token: Annotated[str, Depends(oauth2_scheme)]):

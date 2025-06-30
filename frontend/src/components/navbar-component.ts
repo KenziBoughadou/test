@@ -83,14 +83,25 @@ export class NavbarComponent extends LitElement {
                 </li>
               </ul>
               <section class="my-3">
-                <a href="/login" class="btn btn-outline-success">Log in</a>
-                <a href="/signup" class="btn btn-success">Sign up</a>
+                <!-- N'affiche les boutons connexion/inscription que si non connecté -->
+                ${!this.isAuthenticated() ? html`
+                  <a href="/login" class="btn btn-outline-success">Log in</a>
+                  <a href="/signup" class="btn btn-success">Sign up</a>
+                ` : html`
+                  <a href="/dashboard" class="btn btn-outline-primary me-2">Profil</a>
+                  <button class="btn btn-danger" @click=${this.logout}>Déconnexion</button>
+                `}
               </section>
             </div>
           </div>
         </div>
       </nav>
     `;
+  }
+
+  logout() {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
   }
 }
 

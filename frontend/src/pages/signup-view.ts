@@ -81,25 +81,27 @@ export class SignupView extends LitElement {
   }
 
   try {
-    const serverResponse = await fetch(
-      "http://localhost:8000/api/v1/users/create", requestInit
-    );
-    const jsResponse = await serverResponse.json();
-    console.log(jsResponse);
+  const serverResponse = await fetch(
+    "http://localhost:8100/api/v1/users/create",
+    requestInit
+  );
+  const jsResponse = await serverResponse.json();
 
-    if (serverResponse.ok) {
-      alert("Compte créé avec succès !");
-      // window.location.href = "/login";
-    } else {
-      alert("Erreur lors de la création du compte : " + (jsResponse.detail || JSON.stringify(jsResponse)));
-    }
-  } catch (err) {
-    console.log(err);
-    alert("Erreur réseau ou serveur !");
-  } finally {
-    submitButton.disabled = false;
+  if (serverResponse.status === 409) {
+    alert("Cet email est déjà utilisé !");
+  } else if (serverResponse.ok) {
+    alert("Compte créé avec succès !");
+    window.location.href = "/login";
+  } else {
+    alert("Erreur lors de la création du compte : " + (jsResponse.detail || JSON.stringify(jsResponse)));
   }
+} catch (err) {
+  alert("Erreur réseau ou serveur !");
+} finally {
+  submitButton.disabled = false;
 }
+}
+
 
   render() {
     return html`
