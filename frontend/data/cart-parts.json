@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "name": "Brake Disc",
+    "french_name": "Disque de frein",
+    "description": "A component that slows the car by friction.",
+    "price": 79.99,
+    "image_url": "https://www.autolexicon.net/obr_clanky/cs_brzdovy_kotouc_031.png"
+  },
+  {
+    "id": 2,
+    "name": "Air Filter",
+    "french_name": "Filtre à air",
+    "description": "Prevents dust and debris from entering the engine.",
+    "price": 24.50,
+    "image_url": "https://m.media-amazon.com/images/I/71-2oW6twSL.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Battery",
+    "french_name": "Batterie",
+    "description": "Supplies electric energy to the vehicle.",
+    "price": 129.99,
+    "image_url": "https://www.battery-direct.fr/images/gallery-sets/EB50-12-Batterie-L-01.JPG"
+  },
+  {
+    "id": 4,
+    "name": "Oil Filter",
+    "french_name": "Filtre à huile",
+    "description": "Removes contaminants from engine oil.",
+    "price": 18.75,
+    "image_url": "https://media.noria.com/sites/Uploads/2018/1/24/6c5f2360-9d80-4dd0-80ce-7ee45300f431_oil-filter-xl_extra_large.jpeg"
+  },
+  {
+    "id": 5,
+    "name": "Spark Plug",
+    "french_name": "Bougie d’allumage",
+    "description": "Ignites the fuel-air mixture in the engine.",
+    "price": 9.49,
+    "image_url": "https://www.vaggarage.com.au/cdn/shop/files/z1003101_001_1050x700.jpg?v=1723044625"
+  },
+  {
+    "id": 6,
+    "name": "Alternator",
+    "french_name": "Alternateur",
+    "description": "Charges the battery and powers electrical systems.",
+    "price": 185.00,
+    "image_url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiEnr0nXKA_wD3pthD3e8G0Woddl880V8BuU4IR_J4o5MP7426569Aq_AiMxTBYHTBSSU1SHYjbgwZp6I9fYrbN9RtkyDK_YaOC5GiK4luM77t6i7eoO7gWUcZKTB-xB-9nUiykTtlN-tFg0xa2oR9AicFVPC-FpKpd5p1iNuTvXXYbbYO8-A2tIm1ljuio/s612/alternator.webp"
+  },
+  {
+    "id": 7,
+    "name": "Radiator",
+    "french_name": "Radiateur",
+    "description": "Cools the engine by dissipating heat.",
+    "price": 220.45,
+    "image_url": "https://www.jegs.com/images/photos/100/134/134-62032.jpg"
+  },
+  {
+    "id": 8,
+    "name": "Fuel Pump",
+    "french_name": "Pompe à carburant",
+    "description": "Delivers fuel from the tank to the engine.",
+    "price": 145.30,
+    "image_url": "https://m.media-amazon.com/images/I/71-TvmDOQ4L.jpg"
+  },
+  {
+    "id": 9,
+    "name": "Timing Belt",
+    "french_name": "Courroie de distribution",
+    "description": "Synchronizes the rotation of the crankshaft and camshaft.",
+    "price": 65.99,
+    "image_url": "https://www.fecconsulting.dk/images/stories/virtuemart/product/htd_tandrem_i_gummi_timing_belt.webp"
+  },
+  {
+    "id": 10,
+    "name": "Headlight",
+    "french_name": "Phare",
+    "description": "Illuminates the road ahead during low visibility.",
+    "price": 89.90,
+    "image_url": "https://res.cloudinary.com/yourmechanic/image/upload/dpr_auto,f_auto,q_auto/v1/article_images/Car_Headlights"
+  }
+]

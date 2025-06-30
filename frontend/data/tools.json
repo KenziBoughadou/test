@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "name": "Socket Wrench",
+    "french_name": "Clé à cliquet",
+    "description": "Used for tightening or loosening nuts and bolts.",
+    "price": 34.99,
+    "image_url": "https://i.ebayimg.com/images/g/Je4AAOSwTh9kGYQb/s-l400.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Hydraulic Jack",
+    "french_name": "Cric hydraulique",
+    "description": "Lifts vehicles for repairs or maintenance.",
+    "price": 89.50,
+    "image_url": "https://cdn.achydraulic.com/media/p22bgrpn/hydraulic-jack-dk20.jpg?width=1920&height=1920&format=webp&quality=80"
+  },
+  {
+    "id": 3,
+    "name": "Impact Wrench",
+    "french_name": "Clé à chocs",
+    "description": "Provides high torque for loosening tight fasteners.",
+    "price": 119.00,
+    "image_url": "https://m.media-amazon.com/images/I/61Nl5TiIAJL.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Creeper",
+    "french_name": "Chariot de mécanicien",
+    "description": "Allows mechanics to work under vehicles comfortably.",
+    "price": 49.95,
+    "image_url": "https://m.media-amazon.com/images/I/51-hopci0qS._AC_UF1000,1000_QL80_.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Torque Wrench",
+    "french_name": "Clé dynamométrique",
+    "description": "Applies specific torque to fasteners.",
+    "price": 59.90,
+    "image_url": "https://boxotools.eu/media/catalog/product/cache/90a38e89598f8b50781984e5fd45e20b/t/w/twm2-serie.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Tool Chest",
+    "french_name": "Coffre à outils",
+    "description": "Stores and organizes tools in a garage.",
+    "price": 199.99,
+    "image_url": "https://crytec-power.co.uk/cdn/shop/files/72Black_cabF.png?v=1742226726&width=1946"
+  },
+  {
+    "id": 7,
+    "name": "Air Compressor",
+    "french_name": "Compresseur d’air",
+    "description": "Powers pneumatic tools and inflates tires.",
+    "price": 239.50,
+    "image_url": "https://www.aavsales.com/wp-content/uploads/2021/10/different-types-of-industrial-air-compressors.jpg"
+  },
+  {
+    "id": 8,
+    "name": "Work Light",
+    "french_name": "Lampe de travail",
+    "description": "Provides illumination in dark workspaces.",
+    "price": 24.90,
+    "image_url": "https://xtrem-limit.com/3845-large_default/lampe-worklight-noire.jpg"
+  },
+  {
+    "id": 9,
+    "name": "Oil Drain Pan",
+    "french_name": "Bac de vidange d’huile",
+    "description": "Collects used engine oil during changes.",
+    "price": 17.80,
+    "image_url": "https://i.ebayimg.com/images/g/xC0AAOSwKsJmIQ71/s-l1200.jpg"
+  },
+  {
+    "id": 10,
+    "name": "Multimeter",
+    "french_name": "Multimètre",
+    "description": "Measures voltage, current, and resistance.",
+    "price": 44.75,
+    "image_url": "https://m.media-amazon.com/images/I/81ma9HatWsL.jpg"
+  }
+]
